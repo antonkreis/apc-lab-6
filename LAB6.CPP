@@ -70,6 +70,7 @@ void returnCodes() {
 	setvect(0x09, int_new_9);
 	enable();
 	printf("===========Return codes===========\n");
+	printf("Press ESC to exit\n");
 	while (!toMenuFlag);
 	disable();
 	setvect(0x09, int_old_9);
