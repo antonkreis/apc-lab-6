@@ -9,7 +9,7 @@ int toMenuFlag;
 void interrupt(*int_old_9)(...);
 
 void printCode(unsigned char code) {
-	printf("%d\n", code);
+	printf("%x\n", code);
 }
 
 void interrupt int_new_9(...) {
@@ -88,7 +88,6 @@ void returnCodes() {
 			break;
 		}
 	}
-	getch();
 	disable();
 	setvect(0x09, int_old_9);
 	enable();
@@ -107,14 +106,12 @@ int main(){
 		case '1': 
 			system("cls");
 			indicators();
-			printf("Press anu key to continue\n");
-			getch();
+			system("pause");
 			break;
 		case '2':
 			system("cls");
 			returnCodes();
-			printf("Press anu key to continue\n");
-			getch();
+			system("pause");
 			break;
 		case '3':
 			return 0;
