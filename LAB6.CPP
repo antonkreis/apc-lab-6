@@ -3,7 +3,6 @@
 #include <conio.h>
 #include <stdlib.h>
 
-int continueFlag;
 int toMenuFlag;
 
 void interrupt(*int_old_9)(...);
@@ -14,7 +13,6 @@ void printCode(unsigned char code) {
 
 void interrupt int_new_9(...) {
 	unsigned char code = inp(0x60);
-	continueFlag = 1;
 	printCode(code);
 	if (code == 129) {
 		toMenuFlag = 1;
@@ -71,19 +69,12 @@ void indicators() {
 
 void returnCodes() {
 	toMenuFlag = 0;
-	continueFlag = 0;
 	int_old_9 = getvect(0x09);
 	disable();
 	setvect(0x09, int_new_9);
 	enable();
 	printf("===========Return codes===========\n");
 	while (1) {
-		while (1) {
-			if (continueFlag) {
-				break;
-			}
-		}
-		continueFlag = 0;
 		if (toMenuFlag) {
 			break;
 		}
