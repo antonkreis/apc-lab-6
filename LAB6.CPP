@@ -8,10 +8,13 @@ int toMenuFlag;
 void interrupt(*int_old_9)(...);
 
 void interrupt int_new_9(...) {
-	unsigned char code = inp(0x60);
-	printf("%x\n", code);
-	if (code == 129) {
-		toMenuFlag = 1;
+	unsigned char code;
+	if ((inp(0x64) & 0x01) == 0x01) {
+		code = inp(0x60);
+		printf("%x\n", code);
+		if (code == 129) {
+			toMenuFlag = 1;
+		}
 	}
 	int_old_9();
 }
