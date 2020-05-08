@@ -31,6 +31,7 @@ void indicators() {
 			}
 			attemptsAmount--;
 		}
+
 		if (!canWriteFlag) {
 			printf("Cannot write to keyboard!\n");
 			return;
@@ -38,6 +39,19 @@ void indicators() {
 		outp(0x60, 0xED);
 		if (inp(0x60) == 0xFA) {
 			printf("Transfer success\n");
+			attemptsAmount = 3;
+			canWriteFlag = 0;
+			while (attemptsAmount > 0) {
+				if ((inp(0x64) & 0x02) == 0x00) {
+					canWriteFlag = 1;
+					break;
+				}
+				attemptsAmount--;
+			}
+			if (!canWriteFlag) {
+				printf("Cannot write to keyboard!\n");
+				return;
+			}
 			outp(0x60, mask);
 		}
 		mask *= 2;
@@ -51,6 +65,7 @@ void indicators() {
 		}
 		attemptsAmount--;
 	}
+	
 	if (!canWriteFlag) {
 		printf("Cannot write to keyboard!\n");
 		return;
@@ -58,6 +73,19 @@ void indicators() {
 	outp(0x60, 0xED);
 	if (inp(0x60) == 0xFA) {
 		printf("Transfer success\n");
+		attemptsAmount = 3;
+		canWriteFlag = 0;
+		while (attemptsAmount > 0) {
+			if ((inp(0x64) & 0x02) == 0x00) {
+				canWriteFlag = 1;
+				break;
+			}
+			attemptsAmount--;
+		}
+		if (!canWriteFlag) {
+			printf("Cannot write to keyboard!\n");
+			return;
+		}
 		outp(0x60, 0x00);
 	}
 }
