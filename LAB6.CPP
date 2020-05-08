@@ -7,13 +7,9 @@ int toMenuFlag;
 
 void interrupt(*int_old_9)(...);
 
-void printCode(unsigned char code) {
-	printf("%x\n", code);
-}
-
 void interrupt int_new_9(...) {
 	unsigned char code = inp(0x60);
-	printCode(code);
+	printf("%x\n", code);
 	if (code == 129) {
 		toMenuFlag = 1;
 	}
@@ -74,11 +70,7 @@ void returnCodes() {
 	setvect(0x09, int_new_9);
 	enable();
 	printf("===========Return codes===========\n");
-	while (1) {
-		if (toMenuFlag) {
-			break;
-		}
-	}
+	while (!toMenuFlag);
 	disable();
 	setvect(0x09, int_old_9);
 	enable();
